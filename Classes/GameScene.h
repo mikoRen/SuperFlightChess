@@ -22,6 +22,7 @@ public:
 
 	void update(float f) override;
 	void updateCustom(float dt);
+	void updateOnce(float dt);
 
 
 	void chessBoardInit();
@@ -34,6 +35,10 @@ public:
 	virtual bool onTouchBegan(Touch *touch, Event *unused_event);
 	int roll();
 	void planeMove(plane*);
+	void GameScene::Player0Move(int t);
+	void GameScene::Player1Move(int t);
+	void GameScene::Player2Move(int t);
+	void GameScene::Player3Move(int t);
 	void crush(plane* p);
 	void setDiceVisible(int i);
 	void setDirection(plane*, dir);

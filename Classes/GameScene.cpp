@@ -100,6 +100,8 @@ void GameScene::update(float f)
 	}
 }
 
+
+int startArray[4] = { 0, 1, 2, 3 };
 void GameScene::updateCustom(float dt)
 {
 	upArrow->setVisible(false);
@@ -131,6 +133,34 @@ void GameScene::updateCustom(float dt)
 					Boom(player2.at(i));
 					crush(player2.at(i));
 					plane_erase.pushBack(player2.at(i));
+					if (i == 0) {
+						for (int k = 0; k < 4; k++) {
+							if (startArray[k] == 0) {
+								startArray[k] = 1;
+							}
+						}
+					}
+					if (i == 1) {
+						for (int k = 0; k < 4; k++) {
+							if (startArray[k] == 1) {
+								startArray[k] = 2;
+							}
+						}
+					}
+					if (i == 2) {
+						for (int k = 0; k < 4; k++) {
+							if (startArray[k] == 2) {
+								startArray[k] = 3;
+							}
+						}
+					}
+					if (i == 3) {
+						for (int k = 0; k < 4; k++) {
+							if (startArray[k] == 3) {
+								startArray[k] = 0;
+							}
+						}
+					}
 					auto director = Director::getInstance();
 					director->getRunningScene()->runAction(Shake::create(0.1f, 10));
 					player1_kill = true;
@@ -163,11 +193,14 @@ void GameScene::updateCustom(float dt)
 			}
 		}
 		if (turn == blue) {
+			//蓝色方随机攻击
+			int attackRan = 0;
+			attackRan = rand() % 3;
 			if (getChoice(chosen_plane) == 1 && dice_point > 0) {
 				setDirection(chosen_plane, getOnlyDirection(chosen_plane));
 				planeMove(chosen_plane);
 			}
-			else if (dice_point == 0) {
+			else if (attackRan == 1) {
 				auto flash = Sprite::create("flash.jpg");
 				flash->setScale(3);
 				flash->setAnchorPoint(Vec2(0.5, 0));
@@ -277,7 +310,7 @@ void GameScene::updateCustom(float dt)
 					player2.eraseObject(plane_erase.at(i));
 				}
 				player2_skill_indicator->stopAllActions();
-				player2_skill_indicator->setVisible(false);
+				//player2_skill_indicator->setVisible(false);
 				chosen_plane->energy = 0;
 				turn = red;
 				state = _await;
@@ -314,6 +347,12 @@ void GameScene::updateCustom(float dt)
 		}
 	}
 }
+
+void GameScene::updateOnce(float dt)
+{
+	planeMove(chosen_plane);
+}
+
 
 bool GameScene::onTouchBegan(Touch * touch, Event * unused_event)
 {
@@ -513,6 +552,451 @@ int GameScene::getDistance(Vec2 pos1, Vec2 pos2)
 	pos2 = pos2 / BlockSize;
 	int distance = abs(pos1.x - pos2.x) + abs(pos1.y - pos2.y);
 	return distance;
+}
+
+void GameScene::Player0Move(int t) {
+	//player2随时可能攻击
+	player2.at(0)->energy = 1;
+	//player2_skill_activated = false;
+	if (t == 1) {
+		if (player2.at(0) != nullptr) {
+			setDiceVisible(5);
+			dice_point = 5;
+			setDirection(player2.at(0), down);
+			chosen_plane = player2.at(0);
+			schedule(schedule_selector(GameScene::updateOnce), 0.40, 4, 0.40);
+		}
+		turn = red;
+		dice_point = 0;
+		state = _await;
+	}
+
+	if (t == 2) {
+		if (player2.at(0) != nullptr) {
+			setDiceVisible(3);
+			dice_point = 3;
+			setDirection(player2.at(0), down);
+			chosen_plane = player2.at(0);
+			schedule(schedule_selector(GameScene::updateOnce), 0.40, 2, 0.40);
+		}
+		turn = red;
+		dice_point = 0;
+		state = _await;
+	}
+	if (t == 3) {
+		if (player2.at(0) != nullptr) {
+			setDiceVisible(5);
+			dice_point = 5;
+			setDirection(player2.at(0), down);
+			chosen_plane = player2.at(0);
+			schedule(schedule_selector(GameScene::updateOnce), 0.40, 4, 0.40);
+		}
+		turn = red;
+		dice_point = 0;
+		state = _await;
+	}
+	if (t == 4) {
+		if (player2.at(0) != nullptr) {
+			setDiceVisible(6);
+			dice_point = 6;
+			setDirection(player2.at(0), left);
+			chosen_plane = player2.at(0);
+			schedule(schedule_selector(GameScene::updateOnce), 0.40, 5, 0.40);
+		}
+		turn = red;
+		dice_point = 0;
+		state = _await;
+	}
+	if (t == 5) {
+		if (player2.at(0) != nullptr) {
+			setDiceVisible(6);
+			dice_point = 6;
+			setDirection(player2.at(0), left);
+			chosen_plane = player2.at(0);
+			schedule(schedule_selector(GameScene::updateOnce), 0.40, 5, 0.40);
+		}
+		turn = red;
+		dice_point = 0;
+		state = _await;
+	}
+	if (t == 6) {
+		if (player2.at(0) != nullptr) {
+			setDiceVisible(1);
+			dice_point = 1;
+			setDirection(player2.at(0), left);
+			chosen_plane = player2.at(0);
+			schedule(schedule_selector(GameScene::updateOnce), 0.40, 0, 0.40);
+		}
+		turn = red;
+		dice_point = 0;
+		state = _await;
+	}
+	if (t == 7) {
+		if (player2.at(0) != nullptr) {
+			setDiceVisible(5);
+			dice_point = 5;
+			setDirection(player2.at(0), up);
+			chosen_plane = player2.at(0);
+			schedule(schedule_selector(GameScene::updateOnce), 0.40, 4, 0.40);
+		}
+		turn = red;
+		dice_point = 0;
+		state = _await;
+	}
+	if (t == 8) {
+		if (player2.at(0) != nullptr) {
+			setDiceVisible(2);
+			dice_point = 2;
+			setDirection(player2.at(0), up);
+			chosen_plane = player2.at(0);
+			schedule(schedule_selector(GameScene::updateOnce), 0.40, 1, 0.40);
+		}
+		turn = red;
+		dice_point = 0;
+		state = _await;
+	}
+	if (t == 9) {
+		if (player2.at(0) != nullptr) {
+			setDiceVisible(6);
+			dice_point = 6;
+			setDirection(player2.at(0), up);
+			chosen_plane = player2.at(0);
+			schedule(schedule_selector(GameScene::updateOnce), 0.40, 5, 0.40);
+		}
+		turn = red;
+		dice_point = 0;
+		state = _await;
+	}
+	if (t == 10) {
+		if (player2.at(0) != nullptr) {
+			setDiceVisible(6);
+			dice_point = 6;
+			setDirection(player2.at(0), right);
+			chosen_plane = player2.at(0);
+			schedule(schedule_selector(GameScene::updateOnce), 0.40, 5, 0.40);
+		}
+		turn = red;
+		dice_point = 0;
+		state = _await;
+	}
+	if (t == 11) {
+		if (player2.at(0) != nullptr) {
+			setDiceVisible(6);
+			dice_point = 6;
+			setDirection(player2.at(0), right);
+			chosen_plane = player2.at(0);
+			schedule(schedule_selector(GameScene::updateOnce), 0.40, 5, 0.40);
+		}
+		turn = red;
+		dice_point = 0;
+		state = _await;
+	}
+	if (t == 12) {
+		if (player2.at(0) != nullptr) {
+			setDiceVisible(1);
+			dice_point = 1;
+			setDirection(player2.at(0), right);
+			chosen_plane = player2.at(0);
+			schedule(schedule_selector(GameScene::updateOnce), 0.40, 0, 0.40);
+		}
+		turn = red;
+		dice_point = 0;
+		state = _await;
+	}
+}
+
+void GameScene::Player1Move(int t) {
+	player2.at(1)->energy = 1;
+	//player2_skill_activated = false;
+	if (t == 1) {
+		if (player2.at(1) != nullptr) {
+			setDiceVisible(4);
+			dice_point = 4;
+			setDirection(player2.at(1), left);
+			chosen_plane = player2.at(1);
+			schedule(schedule_selector(GameScene::updateOnce), 0.40, 3, 0.40);
+		}
+		turn = red;
+		dice_point = 0;
+		state = _await;
+	}
+	if (t == 2) {
+		if (player2.at(1) != nullptr) {
+			setDiceVisible(3);
+			dice_point = 3;
+			setDirection(player2.at(1), left);
+			chosen_plane = player2.at(1);
+			schedule(schedule_selector(GameScene::updateOnce), 0.40, 2, 0.40);
+		}
+		turn = red;
+		dice_point = 0;
+		state = _await;
+	}
+	if (t == 3) {
+		if (player2.at(1) != nullptr) {
+			setDiceVisible(6);
+			dice_point = 6;
+			setDirection(player2.at(1), down);
+			chosen_plane = player2.at(1);
+			schedule(schedule_selector(GameScene::updateOnce), 0.40, 5, 0.40);
+		}
+		turn = red;
+		dice_point = 0;
+		state = _await;
+	}
+	if (t == 4) {
+		if (player2.at(1) != nullptr) {
+			setDiceVisible(5);
+			dice_point = 5;
+			setDirection(player2.at(1), right);
+			chosen_plane = player2.at(1);
+			schedule(schedule_selector(GameScene::updateOnce), 0.40, 4, 0.40);
+		}
+		turn = red;
+		dice_point = 0;
+		state = _await;
+
+	}
+	if (t == 5) {
+		if (player2.at(1) != nullptr) {
+			setDiceVisible(2);
+			dice_point = 2;
+			setDirection(player2.at(1), right);
+			chosen_plane = player2.at(1);
+			schedule(schedule_selector(GameScene::updateOnce), 0.40, 1, 0.40);
+		}
+		turn = red;
+		dice_point = 0;
+		state = _await;
+	}
+	if (t == 6) {
+		if (player2.at(1) != nullptr) {
+			setDiceVisible(6);
+			dice_point = 6;
+			setDirection(player2.at(1), up);
+			chosen_plane = player2.at(1);
+			schedule(schedule_selector(GameScene::updateOnce), 0.40, 5, 0.40);
+		}
+		turn = red;
+		dice_point = 0;
+		state = _await;
+	}
+}
+
+void GameScene::Player2Move(int t) {
+	player2.at(2)->energy = 1;
+	//player2_skill_activated = false;
+	if (t == 1) {
+		if (player2.at(2) != nullptr) {
+			setDiceVisible(4);
+			dice_point = 4;
+			setDirection(player2.at(2), left);
+			chosen_plane = player2.at(2);
+			schedule(schedule_selector(GameScene::updateOnce), 0.40, 3, 0.40);
+		}
+		turn = red;
+		dice_point = 0;
+		state = _await;
+	}
+	if (t == 2) {
+		if (player2.at(2) != nullptr) {
+			setDiceVisible(3);
+			dice_point = 3;
+			setDirection(player2.at(2), left);
+			chosen_plane = player2.at(2);
+			schedule(schedule_selector(GameScene::updateOnce), 0.40, 2, 0.40);
+		}
+		turn = red;
+		dice_point = 0;
+		state = _await;
+	}
+	if (t == 3) {
+		if (player2.at(2) != nullptr) {
+			setDiceVisible(6);
+			dice_point = 6;
+			setDirection(player2.at(2), down);
+			chosen_plane = player2.at(2);
+			schedule(schedule_selector(GameScene::updateOnce), 0.40, 5, 0.40);
+		}
+		turn = red;
+		dice_point = 0;
+		state = _await;
+	}
+	if (t == 4) {
+		if (player2.at(2) != nullptr) {
+			setDiceVisible(5);
+			dice_point = 5;
+			setDirection(player2.at(2), right);
+			chosen_plane = player2.at(2);
+			schedule(schedule_selector(GameScene::updateOnce), 0.40, 4, 0.40);
+		}
+		turn = red;
+		dice_point = 0;
+		state = _await;
+
+	}
+	if (t == 5) {
+		if (player2.at(2) != nullptr) {
+			setDiceVisible(2);
+			dice_point = 2;
+			setDirection(player2.at(2), right);
+			chosen_plane = player2.at(2);
+			schedule(schedule_selector(GameScene::updateOnce), 0.40, 1, 0.40);
+		}
+		turn = red;
+		dice_point = 0;
+		state = _await;
+	}
+	if (t == 6) {
+		if (player2.at(2) != nullptr) {
+			setDiceVisible(6);
+			dice_point = 6;
+			setDirection(player2.at(2), up);
+			chosen_plane = player2.at(2);
+			schedule(schedule_selector(GameScene::updateOnce), 0.40, 5, 0.40);
+		}
+		turn = red;
+		dice_point = 0;
+		state = _await;
+	}
+}
+
+void GameScene::Player3Move(int t) {
+	player2.at(3)->energy = 1;
+	//player2_skill_activated = false;
+	if (t == 1) {
+		if (player2.at(3) != nullptr) {
+			setDiceVisible(6);
+			dice_point = 6;
+			setDirection(player2.at(3), down);
+			chosen_plane = player2.at(3);
+			schedule(schedule_selector(GameScene::updateOnce), 0.40, 5, 0.40);
+		}
+		turn = red;
+		dice_point = 0;
+		state = _await;
+	}
+	if (t == 2) {
+		if (player2.at(3) != nullptr) {
+			setDiceVisible(6);
+			dice_point = 6;
+			setDirection(player2.at(3), down);
+			chosen_plane = player2.at(3);
+			schedule(schedule_selector(GameScene::updateOnce), 0.40, 5, 0.40);
+		}
+		turn = red;
+		dice_point = 0;
+		state = _await;
+	}
+	if (t == 3) {
+		if (player2.at(3) != nullptr) {
+			setDiceVisible(1);
+			dice_point = 1;
+			setDirection(player2.at(3), down);
+			chosen_plane = player2.at(3);
+			schedule(schedule_selector(GameScene::updateOnce), 0.40, 0, 0.40);
+		}
+		turn = red;
+		dice_point = 0;
+		state = _await;
+	}
+	if (t == 4) {
+		if (player2.at(3) != nullptr) {
+			setDiceVisible(5);
+			dice_point = 5;
+			setDirection(player2.at(3), left);
+			chosen_plane = player2.at(3);
+			schedule(schedule_selector(GameScene::updateOnce), 0.40, 4, 0.40);
+		}
+		turn = red;
+		dice_point = 0;
+		state = _await;
+
+	}
+	if (t == 5) {
+		if (player2.at(3) != nullptr) {
+			setDiceVisible(1);
+			dice_point = 1;
+			setDirection(player2.at(3), left);
+			chosen_plane = player2.at(3);
+			schedule(schedule_selector(GameScene::updateOnce), 0.40, 0, 0.40);
+		}
+		turn = red;
+		dice_point = 0;
+		state = _await;
+	}
+	if (t == 6) {
+		if (player2.at(3) != nullptr) {
+			setDiceVisible(6);
+			dice_point = 6;
+			setDirection(player2.at(3), up);
+			chosen_plane = player2.at(3);
+			schedule(schedule_selector(GameScene::updateOnce), 0.40, 5, 0.40);
+		}
+		turn = red;
+		dice_point = 0;
+		state = _await;
+	}
+	if (t == 7) {
+		if (player2.at(3) != nullptr) {
+			setDiceVisible(1);
+			dice_point = 1;
+			setDirection(player2.at(3), left);
+			chosen_plane = player2.at(3);
+			schedule(schedule_selector(GameScene::updateOnce), 0.40, 0, 0.40);
+		}
+		turn = red;
+		dice_point = 0;
+		state = _await;
+	}
+	if (t == 8) {
+		if (player2.at(3) != nullptr) {
+			setDiceVisible(4);
+			dice_point = 4;
+			setDirection(player2.at(3), up);
+			chosen_plane = player2.at(3);
+			schedule(schedule_selector(GameScene::updateOnce), 0.40, 3, 0.40);
+		}
+		turn = red;
+		dice_point = 0;
+		state = _await;
+	}
+	if (t == 9) {
+		if (player2.at(3) != nullptr) {
+			setDiceVisible(3);
+			dice_point = 3;
+			setDirection(player2.at(3), up);
+			chosen_plane = player2.at(3);
+			schedule(schedule_selector(GameScene::updateOnce), 0.40, 2, 0.40);
+		}
+		turn = red;
+		dice_point = 0;
+		state = _await;
+	}
+	if (t == 10) {
+		if (player2.at(3) != nullptr) {
+			setDiceVisible(2);
+			dice_point = 2;
+			setDirection(player2.at(3), right);
+			chosen_plane = player2.at(3);
+			schedule(schedule_selector(GameScene::updateOnce), 0.40, 1, 0.40);
+		}
+		turn = red;
+		dice_point = 0;
+		state = _await;
+	}
+	if (t == 11) {
+		if (player2.at(3) != nullptr) {
+			setDiceVisible(5);
+			dice_point = 5;
+			setDirection(player2.at(3), right);
+			chosen_plane = player2.at(3);
+			schedule(schedule_selector(GameScene::updateOnce), 0.40, 4, 0.40);
+		}
+		turn = red;
+		dice_point = 0;
+		state = _await;
+	}
 }
 
 bool GameScene::isChessBoardContain(Vec2 pos)
@@ -896,7 +1380,7 @@ void GameScene::playerInit_1()
 		player1.at(i)->spr->setPosition(player1.at(i)->position);
 		addChild(player1.at(i)->spr, 1);
 	}
-	
+
 }
 void GameScene::playerInit_2()
 {
@@ -926,22 +1410,7 @@ void GameScene::buttonInit()
 					state = plane_choose;
 				}
 			}
-			else if (turn == blue) {
-				bool temp = true;
-				for (int i = 0; i < player2.size(); i++) {
-					if (isChessBoardContain(player2.at(i)->position)) {
-						temp = false;
-						break;
-					}
-				}
-				if (temp == true && dice_point != 6) {
-					dice_point = 0;
-					turn = red;
-				}
-				else {
-					state = plane_choose;
-				}
-			}
+
 		}
 	});
 	auto button_2 = MenuItemFont::create("2", [&](Ref* pSender) {
@@ -957,22 +1426,7 @@ void GameScene::buttonInit()
 					state = plane_choose;
 				}
 			}
-			else if (turn == blue) {
-				bool temp = true;
-				for (int i = 0; i < player2.size(); i++) {
-					if (isChessBoardContain(player2.at(i)->position)) {
-						temp = false;
-						break;
-					}
-				}
-				if (temp == true && dice_point != 6) {
-					dice_point = 0;
-					turn = red;
-				}
-				else {
-					state = plane_choose;
-				}
-			}
+
 		}
 	});
 	auto button_3 = MenuItemFont::create("3", [&](Ref* pSender) {
@@ -988,22 +1442,7 @@ void GameScene::buttonInit()
 					state = plane_choose;
 				}
 			}
-			else if (turn == blue) {
-				bool temp = true;
-				for (int i = 0; i < player2.size(); i++) {
-					if (isChessBoardContain(player2.at(i)->position)) {
-						temp = false;
-						break;
-					}
-				}
-				if (temp == true && dice_point != 6) {
-					dice_point = 0;
-					turn = red;
-				}
-				else {
-					state = plane_choose;
-				}
-			}
+
 		}
 	});
 	auto button_4 = MenuItemFont::create("4", [&](Ref* pSender) {
@@ -1019,22 +1458,7 @@ void GameScene::buttonInit()
 					state = plane_choose;
 				}
 			}
-			else if (turn == blue) {
-				bool temp = true;
-				for (int i = 0; i < player2.size(); i++) {
-					if (isChessBoardContain(player2.at(i)->position)) {
-						temp = false;
-						break;
-					}
-				}
-				if (temp == true && dice_point != 6) {
-					dice_point = 0;
-					turn = red;
-				}
-				else {
-					state = plane_choose;
-				}
-			}
+
 		}
 	});
 	auto button_5 = MenuItemFont::create("5", [&](Ref* pSender) {
@@ -1050,22 +1474,7 @@ void GameScene::buttonInit()
 					state = plane_choose;
 				}
 			}
-			else if (turn == blue) {
-				bool temp = true;
-				for (int i = 0; i < player2.size(); i++) {
-					if (isChessBoardContain(player2.at(i)->position)) {
-						temp = false;
-						break;
-					}
-				}
-				if (temp == true && dice_point != 6) {
-					dice_point = 0;
-					turn = red;
-				}
-				else {
-					state = plane_choose;
-				}
-			}
+
 		}
 	});
 	auto button_6 = MenuItemFont::create("6", [&](Ref* pSender) {
@@ -1104,31 +1513,169 @@ void GameScene::buttonInit()
 			dice_point = roll();
 			if (turn == red) {
 				if (player1_kill == true) {
-					schedule(schedule_selector(GameScene::updateCustom), 0.40);
+					schedule(schedule_selector(GameScene::updateCustom), 1.0);
 					player1_kill = false;
 				}
 				else {
 					state = plane_choose;
 				}
 			}
-			else if (turn == blue) {
-				bool temp = true;
-				for (int i = 0; i < player2.size(); i++) {
-					if (isChessBoardContain(player2.at(i)->position)) {
-						temp = false;
-						break;
+
+		}
+	});
+
+	static int n = 0;
+	static int t1, t2, t3, t4 = 1;
+	auto button_end = MenuItemFont::create("END", [&](Ref* pSender) {
+		if (state == _await) {
+			if (turn == blue) {
+				player2_skill_activated = true;
+				auto fade = Sequence::create(FadeOut::create(0.25), FadeIn::create(0.25), nullptr);
+				auto repeat_fade = RepeatForever::create(fade);
+				player2_skill_indicator->runAction(repeat_fade);
+				if (n == 0) {
+					if (player2.at(0) != nullptr) {
+						dice_point = 6;
+						player2.at(0)->spr->setPosition(Vec2(18, 18)*BlockSize);
+						player2.at(0)->position = Vec2(18, 18)*BlockSize;
+						turn = red;
+						dice_point = 0;
+						state = _await;
 					}
 				}
-				if (temp == true && dice_point != 6) {
-					dice_point = 0;
+				if (n == 1) {
+					if (player2.at(1) != nullptr) {
+						dice_point = 6;
+						player2.at(1)->spr->setPosition(Vec2(18, 18)*BlockSize);
+						player2.at(1)->position = Vec2(18, 18)*BlockSize;
+						turn = red;
+						dice_point = 0;
+						state = _await;
+					}
+
+				}
+				if (n == 2) {
+					if (player2.at(2) != nullptr) {
+						dice_point = 6;
+						player2.at(2)->spr->setPosition(Vec2(18, 18)*BlockSize);
+						player2.at(2)->position = Vec2(18, 18)*BlockSize;
+						turn = red;
+						dice_point = 0;
+						state = _await;
+					}
+				}
+				if (n == 3) {
+					if (player2.at(3) != nullptr) {
+						dice_point = 6;
+						player2.at(3)->spr->setPosition(Vec2(18, 18)*BlockSize);
+						player2.at(3)->position = Vec2(18, 18)*BlockSize;
+					}
 					turn = red;
+					dice_point = 0;
+					state = _await;
+
 				}
-				else {
-					state = plane_choose;
+				if (n > 3) {
+					int Ran = 0;
+					Ran = rand() % 4;
+					for (int l = 0; l < 4; l++) {
+						if (Ran == l) {
+							Ran = startArray[l];
+						}
+					}
+					if (Ran == 0) {
+						Player0Move(t1);
+						t1 = t1 + 1;
+						if (t1 > 12) {
+							t1 = 1;
+						}
+					}
+					if (Ran == 1) {
+						Player1Move(t2);
+						t2 = t2 + 1;
+						if (t2 > 6) {
+							t2 = 1;
+						}
+					}
+					if (Ran == 2) {
+						Player2Move(t3);
+						t3 = t3 + 1;
+						if (t3 > 6) {
+							t3 = 1;
+						}
+					}
+					if (Ran == 3) {
+						Player3Move(t4);
+						if (t4 > 11) {
+							t3 = 1;
+						}
+						t4 = t4 + 1;
+					}
+
 				}
+
+				/*if (n > 7) {
+				int i = 0;
+				int ran = rand() % 4 + 1;
+				i = ran - 1;
+				if (getChoice(player2.at(i)) == 1) {
+				chosen_plane = player2.at(i);
+				int random = rand() % 6 + 1;
+				setDiceVisible(random);
+				dice_point = random;
+				setDirection(player2.at(i), getOnlyDirection(chosen_plane));
+				setDirection(player2.at(i), getOnlyDirection(chosen_plane));
+				planeMove(player2.at(i));
+				turn = red;
+				dice_point = 0;
+				state = _await;
+				//GameScene::planeMove(player2.at(0));
+				}
+				else if (getChoice(player2.at(i)) > 1) {
+				chosen_plane = player2.at(i);
+				if (isChessBoardContain(chosen_plane->position + Vec2(-1, 0)*BlockSize)) {
+				setDirection(player2.at(i), left);
+				}
+				else if (isChessBoardContain(chosen_plane->position + Vec2(1, 0)*BlockSize)) {
+				setDirection(player2.at(i), right);
+				}
+				else if (isChessBoardContain(chosen_plane->position + Vec2(0, -1)*BlockSize)) {
+				setDirection(player2.at(i), down);
+				}
+				else if (isChessBoardContain(chosen_plane->position + Vec2(0, 1)*BlockSize)) {
+				setDirection(player2.at(i), up);
+				}
+				int random = rand() % 6 + 1;
+				setDiceVisible(random);
+				for (int j = 0; j < random; j++) {
+				if (isChessBoardContain(player2.at(0)->position + Vec2(-1, 0)*BlockSize)) {
+				setDirection(player2.at(i), left);
+				}
+				else if (isChessBoardContain(player2.at(0)->position + Vec2(1, 0)*BlockSize)) {
+				setDirection(player2.at(i), right);
+				}
+				else if (isChessBoardContain(player2.at(0)->position + Vec2(0, -1)*BlockSize)) {
+				setDirection(player2.at(i), down);
+				}
+				else if (isChessBoardContain(player2.at(0)->position + Vec2(0, 1)*BlockSize)) {
+				setDirection(player2.at(i), up);
+				}
+				planeMove(player2.at(i));
+				}
+				dice_point = 0;
+				state = _await;
+				//state = dir_choose;
+				//arrowUpdate();
+				//unschedule(schedule_selector(GameScene::updateCustom));
+
+				}*/
+				n = n + 1;
 			}
 		}
 	});
+
+
+
 	button_1->setPosition(Vec2(9, 3) * BlockSize);
 	button_2->setPosition(Vec2(11, 3) * BlockSize);
 	button_3->setPosition(Vec2(13, 3) * BlockSize);
@@ -1136,8 +1683,9 @@ void GameScene::buttonInit()
 	button_5->setPosition(Vec2(17, 3) * BlockSize);
 	button_6->setPosition(Vec2(19, 3) * BlockSize);
 	button_Roll->setPosition(Vec2(7, 1.5) * BlockSize);
+	button_end->setPosition(Vec2(27, 1.5) * BlockSize);
 
-	auto menu = Menu::create(button_1, button_2, button_3, button_4, button_5, button_6, button_Roll, nullptr);
+	auto menu = Menu::create(button_1, button_2, button_3, button_4, button_5, button_6, button_Roll, button_end, nullptr);
 	menu->setPosition(Vec2::ZERO);
 	addChild(menu);
 }
